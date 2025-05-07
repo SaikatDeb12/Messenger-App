@@ -1,9 +1,10 @@
 import "./App.css";
+import Index from "./components/index/Index";
 
 function App() {
   return (
-    <div className="text-red-400">
-      <h1>hello</h1>
+    <div className="h-screen">
+      <Index />
     </div>
   );
 }
