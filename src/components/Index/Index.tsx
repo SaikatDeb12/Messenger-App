@@ -1,4 +1,5 @@
-import AuthForm from "./AuthForm";
+import AuthForm from "../AuthForm/AuthForm";
+import "./index.css";
 
 const Index = () => {
   return (
