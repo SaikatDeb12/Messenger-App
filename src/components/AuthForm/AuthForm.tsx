@@ -30,12 +30,28 @@ const AuthForm = () => {
 
   const onSubmit = (data: AuthSchema) => {
     console.log(data);
+    setIsLoading(true);
+    if (variant == "REGISTER") {
+      //
+    } else if (variant == "LOGIN") {
+      //
+    }
   };
 
   return (
-    <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-full">
-      <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
+    <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-full ">
+      <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10 m-auto w-100">
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+          {variant == "REGISTER" && (
+            <Input
+              name="name"
+              label="Name"
+              id="name"
+              register={register}
+              errors={errors}
+              required={true}
+            />
+          )}
           <Input
             name="email"
             label="Email"
@@ -52,6 +68,12 @@ const AuthForm = () => {
             errors={errors}
             required={true}
           />
+          <button
+            className="border rounded-full p-1 cursor-pointer"
+            type="submit"
+          >
+            Submit
+          </button>
         </form>
       </div>
     </div>
