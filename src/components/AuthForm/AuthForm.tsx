@@ -1,16 +1,11 @@
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import "./authform.css";
+import { authSchema, type AuthSchema } from "../AuthSchema";
+import Input from "../Input/Input";
 
 type Variant = "LOGIN" | "REGISTER";
-const schema = z.object({
-  name: z.string().min(1, "Required"),
-  email: z.string().email("Invalid email"),
-  password: z.string().min(4, "Password should be atleast 4 characters long"),
-});
-type Schema = z.infer<typeof schema>;
 
 const AuthForm = () => {
   const [variant, setVariant] = useState<Variant>("LOGIN");
@@ -24,16 +19,16 @@ const AuthForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Schema>({
+  } = useForm<AuthSchema>({
     defaultValues: {
       name: "",
       email: "",
       password: "",
     },
-    resolver: zodResolver(schema),
+    resolver: zodResolver(authSchema),
   });
 
-  const onSubmit = (data: Schema) => {
+  const onSubmit = (data: AuthSchema) => {
     console.log(data);
   };
 
@@ -41,15 +36,22 @@ const AuthForm = () => {
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-full">
       <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          <label>Email</label>
-          <input
-            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
-            {...register("email")}
+          <Input
+            name="email"
+            label="Email"
+            id="email"
+            register={register}
+            errors={errors}
+            required={true}
           />
-          {errors && errors.email?.message}
-          <label>Password</label>
-          <input placeholder="Enter your password" {...register("password")} />
-          {errors && errors.password?.message}
+          <Input
+            label="Password"
+            name="password"
+            id="password"
+            register={register}
+            errors={errors}
+            required={true}
+          />
         </form>
       </div>
     </div>
