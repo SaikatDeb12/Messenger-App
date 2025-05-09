@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import "./authform.css";
 import { authSchema, type AuthSchema } from "../AuthSchema";
 import Input from "../Input/Input";
+import Button from "../Button/Button";
 
 type Variant = "LOGIN" | "REGISTER";
 
@@ -73,12 +74,13 @@ const AuthForm = () => {
             required={true}
           />
           <div className="w-full flex justify-end">
-            <button
-              className="border  w-fit rounded-md p-1 cursor-pointer"
+            <Button
               type="submit"
-            >
-              Submit
-            </button>
+              fullWidth={false}
+              children={"Submit"}
+              secondary={false}
+              danger={false}
+            />
           </div>
         </form>
       </div>
