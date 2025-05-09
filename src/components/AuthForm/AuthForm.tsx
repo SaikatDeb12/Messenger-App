@@ -37,11 +37,13 @@ const AuthForm = () => {
       //
     }
   };
-
   return (
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-full ">
       <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10 m-auto w-100">
-        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="space-y-6 flex flex-col"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           {variant == "REGISTER" && (
             <Input
               name="name"
@@ -56,6 +58,7 @@ const AuthForm = () => {
             name="email"
             label="Email"
             id="email"
+            type="email"
             register={register}
             errors={errors}
             required={true}
@@ -64,16 +67,19 @@ const AuthForm = () => {
             label="Password"
             name="password"
             id="password"
+            type="password"
             register={register}
             errors={errors}
             required={true}
           />
-          <button
-            className="border rounded-full p-1 cursor-pointer"
-            type="submit"
-          >
-            Submit
-          </button>
+          <div className="w-full flex justify-end">
+            <button
+              className="border  w-fit rounded-md p-1 cursor-pointer"
+              type="submit"
+            >
+              Submit
+            </button>
+          </div>
         </form>
       </div>
     </div>

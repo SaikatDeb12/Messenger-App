@@ -1,6 +1,7 @@
 import { type FieldErrors, type UseFormRegister } from "react-hook-form";
 import type { AuthSchema } from "../AuthSchema";
 import clsx from "clsx";
+import "./input.css";
 
 interface InputProps {
   name: keyof AuthSchema;
@@ -22,6 +23,8 @@ const Input: React.FC<InputProps> = ({
   errors,
   disabled,
 }) => {
+  console.log("error: ", errors);
+  console.log("name: ", name);
   return (
     <div className="mt-2">
       <label
@@ -32,8 +35,8 @@ const Input: React.FC<InputProps> = ({
       </label>
       <input
         className={clsx(
-          `form-input block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 outline-0`,
-          errors && "focus:ring-rose-500",
+          `form-input block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 outline-0 p-2`,
+          errors[name] && "ring-rose-500 focus:ring-rose-500",
           disabled && "opacity-50 cursor-default"
         )}
         id={id}
@@ -42,7 +45,11 @@ const Input: React.FC<InputProps> = ({
         autoComplete={id}
         disabled={disabled}
       />
-      {errors && errors.name?.message}
+      {errors[name]?.message && (
+        <p className="mt-1 text-sm text-red-500">
+          {String(errors[name]?.message)}
+        </p>
+      )}
     </div>
   );
 };
