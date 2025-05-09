@@ -5,6 +5,8 @@ import "./authform.css";
 import { authSchema, type AuthSchema } from "../AuthSchema";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
+import AuthSocialButton from "../AuthSocialButton/AuthSocialButton";
+import { BsGithub, BsGoogle } from "react-icons/bs";
 
 type Variant = "LOGIN" | "REGISTER";
 
@@ -52,6 +54,7 @@ const AuthForm = () => {
               register={register}
               errors={errors}
               required={true}
+              disabled={isLoading}
             />
           )}
           <Input
@@ -62,6 +65,7 @@ const AuthForm = () => {
             register={register}
             errors={errors}
             required={true}
+            disabled={isLoading}
           />
           <Input
             label="Password"
@@ -71,6 +75,7 @@ const AuthForm = () => {
             register={register}
             errors={errors}
             required={true}
+            disabled={isLoading}
           />
           <div className="w-full flex justify-end">
             <Button
@@ -83,6 +88,32 @@ const AuthForm = () => {
             />
           </div>
         </form>
+        <div className="mt-6">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="bg-white px-2 text-gray-500">
+                or continue with
+              </span>
+            </div>
+          </div>
+          <div className="mt-6 flex gap-2">
+            {<AuthSocialButton icon={BsGithub} onClick={() => {}} />}
+            {<AuthSocialButton icon={BsGoogle} onClick={() => {}} />}
+          </div>
+        </div>
+        <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-gray-500">
+          <div>
+            {variant == "LOGIN"
+              ? "New to Messenger?"
+              : "Already have an account?"}
+          </div>
+          <div className="underline cursor-pointer" onClick={toggleVariant}>
+            {variant == "LOGIN" ? "Create an Account" : "Sign In"}
+          </div>
+        </div>
       </div>
     </div>
   );
