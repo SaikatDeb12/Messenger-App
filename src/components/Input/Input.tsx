@@ -23,8 +23,6 @@ const Input: React.FC<InputProps> = ({
   errors,
   disabled,
 }) => {
-  console.log("error: ", errors);
-  console.log("name: ", name);
   return (
     <div className="mt-2">
       <label

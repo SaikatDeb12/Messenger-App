@@ -30,7 +30,6 @@ const AuthForm = () => {
   });
 
   const onSubmit = (data: AuthSchema) => {
-    console.log(data);
     setIsLoading(true);
     if (variant == "REGISTER") {
       //
@@ -77,7 +76,8 @@ const AuthForm = () => {
             <Button
               type="submit"
               fullWidth={false}
-              children={"Submit"}
+              children={variant == "LOGIN" ? "Sign In" : "Sign Up"}
+              disable={isLoading}
               secondary={false}
               danger={false}
             />
