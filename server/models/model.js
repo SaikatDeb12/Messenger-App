@@ -64,4 +64,14 @@ UserSchema.pre("save", function (next) {
   next();
 });
 
+UserSchema.pre(
+  "deleteOne",
+  { document: true, query: false },
+  async function (next) {
+    const userId = this._id;
+    await model("Account").deleteMany({ userId });
+    next();
+  }
+);
+
 module.exports = model("User", UserSchema);
