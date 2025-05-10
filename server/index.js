@@ -4,6 +4,8 @@ const app = express();
 const PORT = 8000;
 require("dotenv").config();
 
-connectMongoDB(process.env.MONGODB_URL);
+connectMongoDB(process.env.MONGODB_URL)
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.log("Error: ", err));
 
 app.listen(PORT, () => console.log(`server started at port: ${PORT}`));
