@@ -80,7 +80,7 @@ const AuthForm = () => {
           <div className="w-full flex justify-end">
             <Button
               type="submit"
-              fullWidth={false}
+              fullWidth={true}
               children={variant == "LOGIN" ? "Sign In" : "Sign Up"}
               disable={isLoading}
               secondary={false}
