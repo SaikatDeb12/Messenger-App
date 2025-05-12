@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const { Schema } = mongoose;
+import mongoose from "mongoose";
 
-const ConversationSchema = new Schema({
+const ConversationSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
@@ -20,19 +19,20 @@ const ConversationSchema = new Schema({
   },
   messageIds: [
     {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Message",
     },
   ],
   userIds: [
     {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
   ],
 });
 
-// Optional: Indexes for performance
 ConversationSchema.index({ userIds: 1 });
 
-module.exports = mongoose.model("Conversation", ConversationSchema);
+const ConversationModel = mongoose.model("conversations", ConversationSchema);
+
+export default ConversationModel;

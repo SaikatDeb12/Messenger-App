@@ -1,12 +1,12 @@
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import "./authform.css";
-import { authSchema, type AuthSchema } from "../AuthSchema";
-import Input from "../Input/Input";
-import Button from "../Button/Button";
-import AuthSocialButton from "../AuthSocialButton/AuthSocialButton";
+import { authSchema, type AuthSchema } from "./AuthSchema";
+import Input from "../../../components/Input";
+import Button from "../../../components/Button";
+import AuthSocialButton from "./AuthSocialButton";
 import { BsGithub, BsGoogle } from "react-icons/bs";
+import axiosIns from "../../../libs/axios";
 
 type Variant = "LOGIN" | "REGISTER";
 
@@ -31,16 +31,35 @@ const AuthForm = () => {
     resolver: zodResolver(authSchema),
   });
 
-  const onSubmit = (data: AuthSchema) => {
+  const onSubmit = async (data: AuthSchema) => {
     setIsLoading(true);
     if (variant == "REGISTER") {
-      //
+      console.log("Data: ", data);
+      try {
+        const res = await axiosIns.post("/api/auth/register", {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+        });
+        console.log(res.data);
+      } catch (error) {
+        console.error("REGISTER", error);
+      }
     } else if (variant == "LOGIN") {
-      //
+      try {
+        const res = await axiosIns.post("/api/auth/login", {
+          email: data.email,
+          password: data.password,
+        });
+        console.log(res.data);
+      } catch (error) {
+        console.error("LOGIN", error);
+      }
     }
   };
+
   return (
-    <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-full ">
+    <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-full">
       <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10 m-auto w-100">
         <form
           className="space-y-6 flex flex-col"
