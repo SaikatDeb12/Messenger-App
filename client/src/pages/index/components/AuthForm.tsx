@@ -7,6 +7,7 @@ import Button from "../../../components/Button";
 import AuthSocialButton from "./AuthSocialButton";
 import { BsGithub, BsGoogle } from "react-icons/bs";
 import axiosIns from "../../../libs/axios";
+import toast from "react-hot-toast";
 
 type Variant = "LOGIN" | "REGISTER";
 
@@ -41,9 +42,10 @@ const AuthForm = () => {
           email: data.email,
           password: data.password,
         });
-        console.log(res.data);
+        toast.success(res.data.msg);
       } catch (error) {
         console.error("REGISTER", error);
+        toast.error("Something went wrong!");
       }
     } else if (variant == "LOGIN") {
       try {

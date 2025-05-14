@@ -1,5 +1,5 @@
 import "./App.css";
-import Index from "./pages/authentication/page";
+import Index from "./pages/index/page";
 
 function App() {
   return (

@@ -1,5 +1,5 @@
 import { type FieldErrors, type UseFormRegister } from "react-hook-form";
-import type { AuthSchema } from "../pages/authentication/components/AuthSchema";
+import type { AuthSchema } from "../pages/index/components/AuthSchema";
 import clsx from "clsx";
 
 interface InputProps {

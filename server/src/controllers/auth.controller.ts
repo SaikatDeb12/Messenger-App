@@ -11,7 +11,7 @@ async function handleRegister(req: Request, res: Response) {
   const { name, email, password } = body;
 
   if (!name || !email || !password) {
-    res.status(400).json("Missing Info!");
+    res.status(400).json({ msg: "Missing Info!" });
     return;
   }
 
@@ -23,7 +23,7 @@ async function handleRegister(req: Request, res: Response) {
     hashedPassword: hashedPassword,
   });
 
-  res.status(200).json({ msg: "User created successfully", data: user });
+  res.status(200).json({ msg: "User created successfully" });
   return;
 }
 
