@@ -1,16 +1,28 @@
-import express from "express";
+import express, { json } from "express";
 import authRouter from "./routes/auth.route";
-const PORT = 9000;
+import mongoose from "mongoose";
+import cors from "cors";
+import * as dotenv from "dotenv";
+dotenv.config();
+const PORT = 8000;
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.end("Hey there 2");
-});
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+mongoose
+  .connect(process.env.MONGODB_URL)
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.log(err));
 
 app.use("/api/auth", authRouter);
-
-//http://localhost:8000/api/auth/register
-//http://localhost:8000/api/auth/login
 
 app.listen(PORT, () => console.log("Server started at", PORT));
