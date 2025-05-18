@@ -1,6 +1,14 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Document } from "mongoose";
 
-const UserSchema = new Schema({
+export interface IUser extends Document {
+  email: string;
+  password?: string;
+  githubId?: string;
+  googleId?: string;
+  name?: string;
+}
+
+const UserSchema: Schema = new Schema({
   name: {
     type: String,
     default: null,
@@ -31,7 +39,16 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-
+  githubId: {
+    type: String,
+    unique: true,
+    sparse: true,
+  },
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true,
+  },
   conversationIds: [
     {
       type: Schema.Types.ObjectId,

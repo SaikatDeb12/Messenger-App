@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 mongoose
-  .connect(process.env.MONGODB_URL)
+  .connect(process.env.MONGODB_URL as string)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 

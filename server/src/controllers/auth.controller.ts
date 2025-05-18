@@ -10,18 +10,20 @@ async function handleRegister(req: Request, res: Response) {
   const body = await req.body;
   const { name, email, password } = body;
 
-  if (!name || !email || !password) {
-    res.status(400).json({ msg: "Missing Info!" });
+  let user = await UserModel.findOne({ email });
+  if (user) {
+    res.status(400).json({ msg: "User already exists" });
     return;
   }
-
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = await UserModel.create({
+  user = await UserModel.create({
     name: name,
     email: email,
     hashedPassword: hashedPassword,
   });
+
+  const payload = { userId: user.id };
 
   res.status(200).json({ msg: "User created successfully" });
   return;

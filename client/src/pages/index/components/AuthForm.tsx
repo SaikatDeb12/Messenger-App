@@ -32,6 +32,11 @@ const AuthForm = () => {
     resolver: zodResolver(authSchema),
   });
 
+  const socialAction = (action: string) => {
+    setIsLoading(true);
+    signIn;
+  };
+
   const onSubmit = async (data: AuthSchema) => {
     setIsLoading(true);
     if (variant == "REGISTER") {
@@ -46,6 +51,8 @@ const AuthForm = () => {
       } catch (error) {
         console.error("REGISTER", error);
         toast.error("Something went wrong!");
+      } finally {
+        setIsLoading(false);
       }
     } else if (variant == "LOGIN") {
       try {
@@ -121,8 +128,18 @@ const AuthForm = () => {
             </div>
           </div>
           <div className="mt-6 flex gap-2">
-            {<AuthSocialButton icon={BsGithub} onClick={() => {}} />}
-            {<AuthSocialButton icon={BsGoogle} onClick={() => {}} />}
+            {
+              <AuthSocialButton
+                icon={BsGithub}
+                onClick={() => socialAction("github")}
+              />
+            }
+            {
+              <AuthSocialButton
+                icon={BsGoogle}
+                onClick={() => socialAction("google")}
+              />
+            }
           </div>
         </div>
         <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-gray-500">
