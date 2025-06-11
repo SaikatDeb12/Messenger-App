@@ -8,12 +8,13 @@ import {
 import passport from "passport";
 import { IUser } from "../models/user.model";
 import jwt from "jsonwebtoken";
+import authMiddleware from "../middleware/authMiddleware";
 
 const router = express.Router();
 
 router.post("/login", handleLogin);
 router.post("/register", handleRegister);
-router.get("/profile", getProfile);
+router.get("/profile", authMiddleware, getProfile);
 
 router.get(
   "/github",
