@@ -2,10 +2,16 @@ import { Schema, model, Document } from "mongoose";
 
 export interface IUser extends Document {
   email: string;
-  password?: string;
-  githubId?: string;
-  googleId?: string;
+  hashedPassword?: string;
   name?: string;
+  emailVerified?: Date;
+  image?: string;
+  createAt: Date;
+  updatedAt: Date;
+  conversationIds: Schema.Types.ObjectId[];
+  seenMessageIds: Schema.Types.ObjectId[];
+  accounts: Schema.Types.ObjectId[];
+  messages: Schema.Types.ObjectId[];
 }
 
 const UserSchema: Schema = new Schema({
@@ -39,16 +45,6 @@ const UserSchema: Schema = new Schema({
     type: Date,
     default: Date.now,
   },
-  githubId: {
-    type: String,
-    unique: true,
-    sparse: true,
-  },
-  googleId: {
-    type: String,
-    unique: true,
-    sparse: true,
-  },
   conversationIds: [
     {
       type: Schema.Types.ObjectId,
@@ -61,7 +57,6 @@ const UserSchema: Schema = new Schema({
       ref: "Message",
     },
   ],
-
   accounts: [
     {
       type: Schema.Types.ObjectId,
@@ -91,6 +86,6 @@ UserSchema.pre(
   }
 );
 
-const UserModel = model("users", UserSchema);
+const UserModel = model<IUser>("users", UserSchema);
 
 export default UserModel;

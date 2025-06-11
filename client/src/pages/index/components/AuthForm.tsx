@@ -34,7 +34,7 @@ const AuthForm = () => {
 
   const socialAction = (action: string) => {
     setIsLoading(true);
-    signIn;
+    window.location.href = `${process.env.REACT_APP_API_URL}/auth/${action}`;
   };
 
   const onSubmit = async (data: AuthSchema) => {
@@ -48,6 +48,7 @@ const AuthForm = () => {
           password: data.password,
         });
         toast.success(res.data.msg);
+        localStorage.setItem("token", res.data.token);
       } catch (error) {
         console.error("REGISTER", error);
         toast.error("Something went wrong!");
@@ -60,9 +61,12 @@ const AuthForm = () => {
           email: data.email,
           password: data.password,
         });
+        toast.success(res.data.msg);
         console.log(res.data);
+        localStorage.setItem("token", res.data.token);
       } catch (error) {
         console.error("LOGIN", error);
+        toast.error("Something went wrong!");
       }
     }
   };
