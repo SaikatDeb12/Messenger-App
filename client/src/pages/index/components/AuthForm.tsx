@@ -8,12 +8,16 @@ import AuthSocialButton from "./AuthSocialButton";
 import { BsGithub, BsGoogle } from "react-icons/bs";
 import axiosIns from "../../../libs/axios";
 import toast from "react-hot-toast";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 type Variant = "LOGIN" | "REGISTER";
 
 const AuthForm = () => {
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+
   const toggleVariant = useCallback(() => {
     if (variant == "LOGIN") setVariant("REGISTER");
     else setVariant("LOGIN");
@@ -38,6 +42,7 @@ const AuthForm = () => {
   };
 
   const onSubmit = async (data: AuthSchema) => {
+    console.log("data submitted: ", data);
     setIsLoading(true);
     if (variant == "REGISTER") {
       console.log("Data: ", data);
@@ -49,6 +54,7 @@ const AuthForm = () => {
         });
         toast.success(res.data.msg);
         localStorage.setItem("token", res.data.token);
+        navigate("/login");
       } catch (error) {
         console.error("REGISTER", error);
         toast.error("Something went wrong!");
@@ -64,9 +70,12 @@ const AuthForm = () => {
         toast.success(res.data.msg);
         console.log(res.data);
         localStorage.setItem("token", res.data.token);
+        navigate("/");
       } catch (error) {
         console.error("LOGIN", error);
         toast.error("Something went wrong!");
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -114,7 +123,7 @@ const AuthForm = () => {
               type="submit"
               fullWidth={true}
               children={variant == "LOGIN" ? "Sign In" : "Sign Up"}
-              disable={isLoading}
+              disabled={isLoading}
               secondary={false}
               danger={false}
             />

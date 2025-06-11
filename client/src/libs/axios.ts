@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosIns = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5173",
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8000",
   withCredentials: false, // Set to false since JWT is used, not cookies
 });
 

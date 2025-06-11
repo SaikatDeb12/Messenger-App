@@ -3,7 +3,8 @@ import axiosIns from "../../libs/axios";
 import toast from "react-hot-toast";
 
 const Home: React.FC = () => {
-  const [user, setUser] = useState<any>(null);
+  // const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     const fetchUser = async () => {

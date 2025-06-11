@@ -1,6 +1,10 @@
 import express from "express";
 import { Request, Response } from "express";
-import { handleLogin, handleRegister } from "../controllers/auth.controller";
+import {
+  getProfile,
+  handleLogin,
+  handleRegister,
+} from "../controllers/auth.controller";
 import passport from "passport";
 import { IUser } from "../models/user.model";
 import jwt from "jsonwebtoken";
@@ -9,6 +13,7 @@ const router = express.Router();
 
 router.post("/login", handleLogin);
 router.post("/register", handleRegister);
+router.get("/profile", getProfile);
 
 router.get(
   "/github",
