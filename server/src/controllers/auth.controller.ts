@@ -2,9 +2,24 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import UserModel from "../models/user.model";
 import jwt from "jsonwebtoken";
+import { z } from "zod";
+
+const loginSchema = z.object({
+  email: z.string().email("Invalid Email"),
+  password: z
+    .string()
+    .min(4)
+    .max(20, "Password should contain atleast 4 characters "),
+});
+
 async function handleLogin(req: Request, res: Response) {
-  const body = await req.body;
-  const { email, password } = body;
+  const { success, data, error } = loginSchema.safeParse(req.body);
+  if (!success) {
+    res.status(401).json({ msg: error.errors[0].message });
+    return;
+  }
+
+  const { email, password } = data;
   try {
     const user = await UserModel.findOne({ email });
     if (!user || !user.hashedPassword) {
@@ -17,16 +32,29 @@ async function handleLogin(req: Request, res: Response) {
 
     const payload = { userId: user.id };
     const token = jwt.sign(payload, process.env.JWT_SECRET as string);
-    res.json({ token });
+    res.status(200).json({ token: token });
   } catch (err) {
-    res.status(500).json({ msg: "Server error" });
+    res.status(500).json({ msg: "Internal Server Error" });
   }
 }
 
-async function handleRegister(req: Request, res: Response) {
-  const body = await req.body;
-  const { name, email, password } = body;
+const registerSchema = z.object({
+  name: z.string().min(1, "Required"),
+  email: z.string().email("Invalid Email"),
+  password: z
+    .string()
+    .min(4)
+    .max(20, "Password should contain atleast 4 chracters"),
+});
 
+async function handleRegister(req: Request, res: Response) {
+  const { success, data, error } = registerSchema.safeParse(req.body);
+  if (!success) {
+    res.status(401).json({ msg: error.errors[0].message });
+    return;
+  }
+
+  const { name, email, password } = data;
   try {
     let user = await UserModel.findOne({ email });
     if (user) {
@@ -34,7 +62,6 @@ async function handleRegister(req: Request, res: Response) {
       return;
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-
     user = await UserModel.create({
       name: name,
       email: email,
@@ -43,15 +70,10 @@ async function handleRegister(req: Request, res: Response) {
 
     const payload = { userId: user.id };
     const token = jwt.sign(payload, process.env.JWT_SECRET as string);
-    res.json({ token });
-    // res.status(200).json({ msg: "User created successfully" });
+    res.status(200).json({ token: token });
   } catch (err) {
     res.status(500).json({ msg: "Server error" });
   }
-}
-
-interface AuthRequest extends Request {
-  user?: string;
 }
 
 const getProfile = async (req: Request, res: Response) => {
@@ -60,7 +82,6 @@ const getProfile = async (req: Request, res: Response) => {
     if (!user) {
       return res.status(404).json({ msg: "User not found" });
     }
-
     res.status(200).json(user);
   } catch (err) {
     console.log("Error fething profile!", err);
@@ -68,4 +89,4 @@ const getProfile = async (req: Request, res: Response) => {
   }
 };
 
-export { handleLogin, handleRegister, AuthRequest, getProfile };
+export { handleLogin, handleRegister, getProfile };
