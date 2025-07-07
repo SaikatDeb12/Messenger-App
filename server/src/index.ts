@@ -7,16 +7,11 @@ import session from "express-session";
 import "./config/passport.config";
 import connectDB from "./connect";
 dotenv.config();
-const PORT = 8000;
 
 const app = express();
+const PORT = process.env.PORT;
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
+app.use(cors());
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

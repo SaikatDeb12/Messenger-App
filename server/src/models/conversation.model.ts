@@ -1,38 +1,24 @@
-import mongoose from "mongoose";
+import { Types, Schema, model } from "mongoose";
 
-const ConversationSchema = new mongoose.Schema({
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  lastMessageAt: {
-    type: Date,
-    default: Date.now,
-  },
-  name: {
-    type: String,
-    default: null,
-  },
-  isGroup: {
-    type: Boolean,
-    default: false,
-  },
-  messageIds: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Message",
-    },
-  ],
-  userIds: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
+export interface conversationType extends Document {
+  name?: string;
+  isGroup?: string;
+  createdAt: Date;
+  lastMessageAt: Date;
+  messageIds: Types.ObjectId[];
+  userIds: Types.ObjectId[];
+}
+
+const conversationSchema = new Schema<conversationType>({
+  name: { type: String },
+  isGroup: { type: String },
+  createdAt: { type: Date, default: Date.now() },
+  lastMessageAt: { type: Date, default: Date.now() },
+  messageIds: [{ type: Schema.Types.ObjectId, ref: "Message" }],
+  userIds: [{ type: Schema.Types.ObjectId, ref: "User" }],
 });
 
-ConversationSchema.index({ userIds: 1 });
-
-const ConversationModel = mongoose.model("conversations", ConversationSchema);
-
-export default ConversationModel;
+export const Conversation = model<conversationType>(
+  "Conversation",
+  conversationSchema
+);
